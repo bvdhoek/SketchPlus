@@ -7,6 +7,7 @@ namespace SchetsEditor
     public class Hoofdscherm : Form
     {
         MenuStrip menuStrip;
+        SchetsWin s;
 
         public Hoofdscherm()
         {   this.ClientSize = new Size(800, 600);
@@ -22,6 +23,7 @@ namespace SchetsEditor
         {   ToolStripDropDownItem menu;
             menu = new ToolStripMenuItem("File");
             menu.DropDownItems.Add("Nieuw", null, this.nieuw);
+            menu.DropDownItems.Add("Opslaan", null, this.opslaan);
             menu.DropDownItems.Add("Exit", null, this.afsluiten);
             menuStrip.Items.Add(menu);
         }
@@ -40,10 +42,17 @@ namespace SchetsEditor
         }
 
         private void nieuw(object sender, EventArgs e)
-        {   SchetsWin s = new SchetsWin();
+        {   s = new SchetsWin();
             s.MdiParent = this;
             s.Show();
         }
+
+        private void opslaan(object sender, EventArgs e)
+        {
+            if (s != null)
+                s.Opslaan();
+        }
+
         private void afsluiten(object sender, EventArgs e)
         {   this.Close();
         }

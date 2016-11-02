@@ -42,5 +42,10 @@ namespace SchetsEditor
         {
             bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
         }
+        
+        public Bitmap ToBitmap()
+        {
+            return bitmap;
+        }
     }
 }
