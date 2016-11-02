@@ -89,20 +89,24 @@ namespace SchetsEditor
             schetscontrol = new SchetsControl();
             schetscontrol.Location = new Point(64, 10);
             schetscontrol.MouseDown += (object o, MouseEventArgs mea) =>
-                                       {   vast=true;  
+                                       {
+                                           vast =true;  
                                            huidigeTool.MuisVast(schetscontrol, mea.Location); 
                                        };
             schetscontrol.MouseMove += (object o, MouseEventArgs mea) =>
-                                       {   if (vast)
+                                       {
+                                           if (vast)
                                            huidigeTool.MuisDrag(schetscontrol, mea.Location); 
                                        };
             schetscontrol.MouseUp   += (object o, MouseEventArgs mea) =>
-                                       {   if (vast)
+                                       {
+                                           if (vast)
                                            huidigeTool.MuisLos (schetscontrol, mea.Location);
                                            vast = false; 
                                        };
             schetscontrol.KeyPress +=  (object o, KeyPressEventArgs kpea) => 
-                                       {   huidigeTool.Letter  (schetscontrol, kpea.KeyChar); 
+                                       {
+                                           huidigeTool.Letter  (schetscontrol, kpea.KeyChar); 
                                        };
             this.Controls.Add(schetscontrol);
 
