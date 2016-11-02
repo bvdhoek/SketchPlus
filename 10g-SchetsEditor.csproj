@@ -89,13 +89,13 @@
     <None Include="Resources\lijn.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\rect.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\fillrect.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\text.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\oval.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filloval.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
