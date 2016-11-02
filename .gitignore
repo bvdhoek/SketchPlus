@@ -7,7 +7,8 @@
 !*.settings
 !sketchplus/app.config
 !.gitignore
-!.png
+!*.png
+!LogboekSP.docx
 !*/
 
 */obj/*
