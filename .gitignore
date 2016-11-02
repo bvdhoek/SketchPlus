@@ -1,0 +1,12 @@
+*
+
+!*.cs
+!*.csproj
+!*.sln
+!*.resx
+!*.settings
+!sketchplus/app.config
+!.gitignore
+!*/
+
+*/obj/*
