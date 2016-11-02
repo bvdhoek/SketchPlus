@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Resources;
+using System.Drawing.Imaging;
 
 namespace SchetsEditor
 {
@@ -18,6 +19,31 @@ namespace SchetsEditor
             = new ResourceManager("SchetsEditor.Properties.Resources"
                                  , Assembly.GetExecutingAssembly()
                                  );
+
+        public void Opslaan()
+        {
+            SaveFileDialog saveVenster = new SaveFileDialog();
+            saveVenster.Filter = "Images|*.bmp;*.png;*.jpg";
+            ImageFormat format = ImageFormat.Bmp;
+            if (saveVenster.ShowDialog() == DialogResult.OK)
+            {
+                Console.WriteLine(System.IO.Path.GetExtension(saveVenster.FileName));
+                string extensie = System.IO.Path.GetExtension(saveVenster.FileName);
+                switch (extensie)
+                {
+                    case ".jpg":
+                        format = ImageFormat.Jpeg;
+                        break;
+                    case ".png":
+                        format = ImageFormat.Png;
+                        break;
+                    default:
+                        format = ImageFormat.Bmp;
+                        break;
+                }
+                schetscontrol.Schets.ToBitmap().Save(saveVenster.FileName, format);
+            }
+        }
 
         private void veranderAfmeting(object o, EventArgs ea)
         {
