@@ -20,7 +20,7 @@ namespace SchetsEditor
                                  , Assembly.GetExecutingAssembly()
                                  );
 
-        public void Opslaan()
+        private void opslaan(object sender, EventArgs e)
         {
             SaveFileDialog saveVenster = new SaveFileDialog();
             saveVenster.Filter = "Images|*.bmp;*.png;*.jpg";
@@ -122,6 +122,7 @@ namespace SchetsEditor
         {   
             ToolStripMenuItem menu = new ToolStripMenuItem("File");
             menu.MergeAction = MergeAction.MatchOnly;
+            menu.DropDownItems.Add("Opslaan", null, this.opslaan);
             menu.DropDownItems.Add("Sluiten", null, this.afsluiten);
             menuStrip.Items.Add(menu);
         }
