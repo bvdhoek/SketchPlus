@@ -18,13 +18,6 @@ namespace SchetsEditor
             get { return schets;   }
         }
 
-
-        public SchetsControl()
-        {
-            this.BorderStyle = BorderStyle.Fixed3D;
-            this.schets = new Schets();
-        }
-
         public SchetsControl(Bitmap bmp = null)
         {
             this.BorderStyle = BorderStyle.Fixed3D;
