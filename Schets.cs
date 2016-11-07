@@ -7,6 +7,7 @@ namespace SchetsEditor
     public class Schets
     {
         private Bitmap bitmap;
+        public bool veranderd = false;
         
         public Schets()
         {
