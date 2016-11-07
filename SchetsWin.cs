@@ -64,7 +64,8 @@ namespace SchetsEditor
 
         private void afsluiten(object obj, EventArgs ea)
         {
-            this.Close();
+            if (VeranderingsWaarschuwing("Weet je zeker dat u de schets wilt sluiten?\n U heeft onopgeslagen veranderingen."))
+                this.Close();
         }
 
         public SchetsWin(Bitmap bmp = null)
@@ -213,6 +214,18 @@ namespace SchetsEditor
                 cbb.Items.Add(k);
             cbb.SelectedIndex = 0;
             paneel.Controls.Add(cbb);
+        }
+
+        private bool VeranderingsWaarschuwing(string waarschuwing)
+        {
+            if (schetscontrol.SchetsVeranderd())
+            {
+                DialogResult result = MessageBox.Show(waarschuwing, "Schets veranderd", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                if (result == DialogResult.Yes)
+                    return true;
+                return false;
+            }
+            return true;
         }
     }
 }

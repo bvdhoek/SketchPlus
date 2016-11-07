@@ -15,7 +15,7 @@ namespace SchetsEditor
 
         public Schets Schets
         {
-            get { return schets;   }
+            get { return schets; }
         }
 
         public SchetsControl(Bitmap bmp = null)
@@ -75,6 +75,11 @@ namespace SchetsEditor
         {
             string kleurNaam = ((ToolStripMenuItem)obj).Text;
             penkleur = Color.FromName(kleurNaam);
+        }
+
+        public bool SchetsVeranderd()
+        {
+            return schets.veranderd;
         }
     }
 }
