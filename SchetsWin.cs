@@ -116,6 +116,7 @@ namespace SchetsEditor
 
             menuStrip = new MenuStrip();
             menuStrip.Visible = false;
+            this.FormClosing += Sluiten;
             this.Controls.Add(menuStrip);
             this.maakFileMenu();
             this.maakToolMenu(deTools);
@@ -124,6 +125,11 @@ namespace SchetsEditor
             this.maakAktieButtons(deKleuren);
             this.Resize += this.veranderAfmeting;
             this.veranderAfmeting(null, null);
+        }
+
+        private void Sluiten(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = !VeranderingsWaarschuwing("Weet je zeker dat u de schets wilt sluiten?\n U heeft onopgeslagen veranderingen.");
         }
 
         private void maakFileMenu()
