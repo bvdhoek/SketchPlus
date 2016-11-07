@@ -13,14 +13,11 @@ namespace SchetsEditor
             bitmap = new Bitmap(1, 1);
         }
 
-<<<<<<< HEAD
-=======
         public Schets(Bitmap bitmap)
         {
             this.bitmap = bitmap;
         }
 
->>>>>>> master
         public Graphics BitmapGraphics
         {
             get { return Graphics.FromImage(bitmap); }
