@@ -22,6 +22,7 @@ namespace SchetsEditor
         {   ToolStripDropDownItem menu;
             menu = new ToolStripMenuItem("File");
             menu.DropDownItems.Add("Nieuw", null, this.nieuw);
+            menu.DropDownItems.Add("Openen", null, this.openen);
             menu.DropDownItems.Add("Exit", null, this.afsluiten);
             menuStrip.Items.Add(menu);
         }
@@ -44,6 +45,23 @@ namespace SchetsEditor
             SchetsWin s = new SchetsWin();
             s.MdiParent = this;
             s.Show();
+        }
+
+        private void openen(object sender, EventArgs e)
+        {
+            OpenFileDialog b = new OpenFileDialog();
+            b.InitialDirectory = "c:\\";
+            b.Filter = "Images|*.bmp;*.png;*.jpg";
+            b.FilterIndex = 3;
+            SchetsWin s;
+            if (b.ShowDialog() == DialogResult.OK)
+            {
+                Bitmap bmp = new Bitmap(b.FileName);
+                s = new SchetsWin(bmp);
+                s.MdiParent = this;
+                s.Show();
+            }
+            
         }
 
         private void afsluiten(object sender, EventArgs e)
