@@ -50,7 +50,6 @@ namespace SchetsEditor
         private void openen(object sender, EventArgs e)
         {
             OpenFileDialog b = new OpenFileDialog();
-            b.InitialDirectory = "c:\\";
             b.Filter = "Images|*.bmp;*.png;*.jpg";
             b.FilterIndex = 3;
             SchetsWin s;
