@@ -25,6 +25,7 @@ namespace SchetsEditor
         public virtual void MuisLos(SchetsControl s, Point p)
         {
             kwast = new SolidBrush(s.PenKleur);
+            s.Schets.veranderd = true;
         }
 
         public abstract void MuisDrag(SchetsControl s, Point p);
