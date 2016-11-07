@@ -18,6 +18,7 @@ namespace SchetsEditor
             this.IsMdiContainer = true;
             this.MainMenuStrip = menuStrip;
         }
+
         private void maakFileMenu()
         {   ToolStripDropDownItem menu;
             menu = new ToolStripMenuItem("File");
@@ -26,12 +27,14 @@ namespace SchetsEditor
             menu.DropDownItems.Add("Exit", null, this.afsluiten);
             menuStrip.Items.Add(menu);
         }
+
         private void maakHelpMenu()
         {   ToolStripDropDownItem menu;
             menu = new ToolStripMenuItem("Help");
             menu.DropDownItems.Add("Over \"Schets\"", null, this.about);
             menuStrip.Items.Add(menu);
         }
+
         private void about(object o, EventArgs ea)
         {   MessageBox.Show("Schets versie 1.0\n(c) UU Informatica 2010"
                            , "Over \"Schets\""

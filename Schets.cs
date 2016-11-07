@@ -13,11 +13,14 @@ namespace SchetsEditor
             bitmap = new Bitmap(1, 1);
         }
 
+<<<<<<< HEAD
+=======
         public Schets(Bitmap bitmap)
         {
             this.bitmap = bitmap;
         }
 
+>>>>>>> master
         public Graphics BitmapGraphics
         {
             get { return Graphics.FromImage(bitmap); }
@@ -36,15 +39,18 @@ namespace SchetsEditor
                 bitmap = nieuw;
             }
         }
+
         public void Teken(Graphics gr)
         {
             gr.DrawImage(bitmap, 0, 0);
         }
+
         public void Schoon()
         {
             Graphics gr = Graphics.FromImage(bitmap);
             gr.FillRectangle(Brushes.White, 0, 0, bitmap.Width, bitmap.Height);
         }
+
         public void Roteer()
         {
             bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
