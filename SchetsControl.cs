@@ -17,11 +17,21 @@ namespace SchetsEditor
         {
             get { return schets;   }
         }
+<<<<<<< HEAD
 
         public SchetsControl()
         {
             this.BorderStyle = BorderStyle.Fixed3D;
             this.schets = new Schets();
+=======
+        public SchetsControl(Bitmap bmp = null)
+        {
+            this.BorderStyle = BorderStyle.Fixed3D;
+            if (bmp == null)
+                this.schets = new Schets();
+            else
+                this.schets = new Schets(bmp);
+>>>>>>> master
             this.Paint += this.teken;
             this.Resize += this.veranderAfmeting;
             this.veranderAfmeting(null, null);

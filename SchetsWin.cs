@@ -67,9 +67,9 @@ namespace SchetsEditor
             this.Close();
         }
 
-        public SchetsWin()
+        public SchetsWin(Bitmap bmp = null)
         {
-            ISchetsTool[] deTools = { new PenTool()         
+            ISchetsTool[] deTools = { new PenTool()
                                     , new LijnTool()
                                     , new RechthoekTool()
                                     , new VolRechthoekTool()
@@ -77,37 +77,40 @@ namespace SchetsEditor
                                     , new VolOvaalTool()
                                     , new TekstTool()
                                     , new GumTool()
-                                    
+
                                     };
             String[] deKleuren = { "Black", "Red", "Green", "Blue"
-                                 , "Yellow", "Magenta", "Cyan" 
+                                 , "Yellow", "Magenta", "Cyan"
                                  };
 
             this.ClientSize = new Size(700, 500);
             huidigeTool = deTools[0];
 
-            schetscontrol = new SchetsControl();
+            if (bmp == null)
+                schetscontrol = new SchetsControl();
+            else
+                schetscontrol = new SchetsControl(bmp);
             schetscontrol.Location = new Point(64, 10);
             schetscontrol.MouseDown += (object o, MouseEventArgs mea) =>
-                                       {
-                                           vast =true;  
-                                           huidigeTool.MuisVast(schetscontrol, mea.Location); 
-                                       };
+            {
+                vast = true;
+                huidigeTool.MuisVast(schetscontrol, mea.Location);
+            };
             schetscontrol.MouseMove += (object o, MouseEventArgs mea) =>
-                                       {
-                                           if (vast)
-                                           huidigeTool.MuisDrag(schetscontrol, mea.Location); 
-                                       };
-            schetscontrol.MouseUp   += (object o, MouseEventArgs mea) =>
-                                       {
-                                           if (vast)
-                                           huidigeTool.MuisLos (schetscontrol, mea.Location);
-                                           vast = false; 
-                                       };
-            schetscontrol.KeyPress +=  (object o, KeyPressEventArgs kpea) => 
-                                       {
-                                           huidigeTool.Letter  (schetscontrol, kpea.KeyChar); 
-                                       };
+            {
+                if (vast)
+                    huidigeTool.MuisDrag(schetscontrol, mea.Location);
+            };
+            schetscontrol.MouseUp += (object o, MouseEventArgs mea) =>
+            {
+                if (vast)
+                    huidigeTool.MuisLos(schetscontrol, mea.Location);
+                vast = false;
+            };
+            schetscontrol.KeyPress += (object o, KeyPressEventArgs kpea) =>
+            {
+                huidigeTool.Letter(schetscontrol, kpea.KeyChar);
+            };
             this.Controls.Add(schetscontrol);
 
             menuStrip = new MenuStrip();
