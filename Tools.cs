@@ -126,12 +126,10 @@ namespace SchetsEditor
 
         public virtual void Compleet(Graphics g, Point p1, Point p2, Brush kwast)
         {
-            this.Compleet(g, p1, p2);
         }
 
         public virtual void Compleet(Graphics g, Point p1, Point p2)
         {
-            this.Bezig(g, p1, p2);
         }
     }
 
