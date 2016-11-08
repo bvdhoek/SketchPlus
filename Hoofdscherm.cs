@@ -59,7 +59,6 @@ namespace SchetsEditor
             {
                 List<IVorm> getekendeObjecten = Opslag.Laad(b.FileName);
                 SchetsWin s = new SchetsWin(getekendeObjecten, b.FileName);
-                s.schetscontrol.fileName = b.FileName;
                 s.MdiParent = this;
                 s.Show();
             }

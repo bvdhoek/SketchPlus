@@ -9,7 +9,6 @@ namespace SchetsEditor
 {   public class SchetsControl : UserControl
     {   private Schets schets;
         private Color penkleur;
-        public string fileName = "";
         public List<IVorm> getekendeObjecten = new List<IVorm>();
 
         public Color PenKleur
