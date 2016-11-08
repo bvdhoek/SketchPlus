@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -53,17 +54,15 @@ namespace SchetsEditor
         private void openen(object sender, EventArgs e)
         {
             OpenFileDialog b = new OpenFileDialog();
-            b.Filter = "Images|*.bmp;*.png;*.jpg";
-            b.FilterIndex = 3;
-            SchetsWin s;
+            b.Filter = "SketchPlus|*.sp";
             if (b.ShowDialog() == DialogResult.OK)
             {
-                Bitmap bmp = new Bitmap(b.FileName);
-                s = new SchetsWin(bmp);
+                List<IVorm> getekendeObjecten = Opslag.Laad(b.FileName);
+                SchetsWin s = new SchetsWin(getekendeObjecten, b.FileName);
+                s.schetscontrol.fileName = b.FileName;
                 s.MdiParent = this;
                 s.Show();
             }
-            
         }
 
         private void afsluiten(object sender, EventArgs e)

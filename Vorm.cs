@@ -9,7 +9,6 @@ namespace SchetsEditor
     public interface IVorm
     {
         void Teken(SchetsControl s);
-        string ToString();
     }
 
     public abstract class Vorm : IVorm
@@ -24,7 +23,11 @@ namespace SchetsEditor
             this.kleur = kleur;
         }
 
-        public abstract string ToString();
+        public override string ToString()
+        {
+            return this.GetType() + " " + startPunt.X + " " + startPunt.Y + " " + eindPunt.X + " " + eindPunt.Y + " " + kleur.R + " " + kleur.G + " " + kleur.B + "\n";
+        }
+        
         public abstract void Teken(SchetsControl s);
     }
 
@@ -41,7 +44,11 @@ namespace SchetsEditor
             this.letter = letter;
         }
 
-        public abstract string ToString();
+        public override string ToString()
+        {
+            return this.GetType() + " " + startPunt.X + " " + startPunt.Y + " " + kleur.R + " " + kleur.G + " " + kleur.B + " " + letter + "\n";
+        }
+
         public abstract void Teken(SchetsControl s);
     }
 
@@ -53,11 +60,6 @@ namespace SchetsEditor
         {
             new TekstTool().Letter(s, this.letter, new SolidBrush(this.kleur), this.startPunt);
         }
-
-        public override string ToString()
-        {
-            return "Tekst: { " + kleur + ", " + letter + ", " + startPunt + " }";
-        }
     }
 
     public class Rechthoek : Vorm
@@ -67,11 +69,6 @@ namespace SchetsEditor
         public override void Teken(SchetsControl s)
         {
             new RechthoekTool().Bezig(s.MaakBitmapGraphics(), startPunt, eindPunt, new SolidBrush(this.kleur));
-        }
-
-        public override string ToString()
-        {
-            return this.GetType() + " { " + kleur + ", " + startPunt + ", " + eindPunt + " }";
         }
     }
 
@@ -83,11 +80,6 @@ namespace SchetsEditor
         {
             new VolRechthoekTool().Compleet(s.MaakBitmapGraphics(), startPunt, eindPunt, new SolidBrush(this.kleur));
         }
-
-        public override string ToString()
-        {
-            return this.GetType() + " { " + kleur + ", " + startPunt + ", " + eindPunt + " }";
-        }
     }
 
     public class Ovaal : Vorm
@@ -97,11 +89,6 @@ namespace SchetsEditor
         public override void Teken(SchetsControl s)
         {
             new OvaalTool().Bezig(s.MaakBitmapGraphics(), startPunt, eindPunt, new SolidBrush(this.kleur));
-        }
-
-        public override string ToString()
-        {
-            return this.GetType() + " { " + kleur + ", " + startPunt + ", " + eindPunt + " }";
         }
     }
 
@@ -113,11 +100,6 @@ namespace SchetsEditor
         {
             new VolOvaalTool().Bezig(s.MaakBitmapGraphics(), startPunt, eindPunt, new SolidBrush(this.kleur));
         }
-
-        public override string ToString()
-        {
-            return this.GetType() + " { " + kleur + ", " + startPunt + ", " + eindPunt + " }";
-        }
     }
 
     public class Lijn : Vorm
@@ -127,11 +109,6 @@ namespace SchetsEditor
         public override void Teken(SchetsControl s)
         {
             new LijnTool().Bezig(s.MaakBitmapGraphics(), startPunt, eindPunt, new SolidBrush(this.kleur));
-        }
-
-        public override string ToString()
-        {
-            return this.GetType() + " { " + kleur + ", " + startPunt + ", " + eindPunt + " }";
         }
     }
 }

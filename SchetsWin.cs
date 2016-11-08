@@ -11,7 +11,8 @@ namespace SchetsEditor
     public class SchetsWin : Form
     {   
         MenuStrip menuStrip;
-        SchetsControl schetscontrol;
+        string fileNaam;
+        public SchetsControl schetscontrol;
         ISchetsTool huidigeTool;
         Panel paneel;
         bool vast;
@@ -22,27 +23,7 @@ namespace SchetsEditor
 
         private void opslaan(object sender, EventArgs e)
         {
-            SaveFileDialog saveVenster = new SaveFileDialog();
-            saveVenster.Filter = "Images|*.bmp;*.png;*.jpg";
-            ImageFormat format = ImageFormat.Bmp;
-            if (saveVenster.ShowDialog() == DialogResult.OK)
-            {
-                Console.WriteLine(System.IO.Path.GetExtension(saveVenster.FileName));
-                string extensie = System.IO.Path.GetExtension(saveVenster.FileName);
-                switch (extensie)
-                {
-                    case ".jpg":
-                        format = ImageFormat.Jpeg;
-                        break;
-                    case ".png":
-                        format = ImageFormat.Png;
-                        break;
-                    default:
-                        format = ImageFormat.Bmp;
-                        break;
-                }
-                schetscontrol.Schets.ToBitmap().Save(saveVenster.FileName, format);
-            }
+            Opslag.SlaOp(schetscontrol.getekendeObjecten, fileNaam);
         }
 
         private void veranderAfmeting(object o, EventArgs ea)
@@ -68,8 +49,9 @@ namespace SchetsEditor
                 this.Close();
         }
 
-        public SchetsWin(Bitmap bmp = null)
+        public SchetsWin(List<IVorm> getekendeObjecten = null, string fileNaam = null)
         {
+            this.fileNaam = fileNaam;
             ISchetsTool[] deTools = { new PenTool()
                                     , new LijnTool()
                                     , new RechthoekTool()
@@ -87,10 +69,10 @@ namespace SchetsEditor
             this.ClientSize = new Size(700, 500);
             huidigeTool = deTools[0];
 
-            if (bmp == null)
+            if (getekendeObjecten == null)
                 schetscontrol = new SchetsControl();
             else
-                schetscontrol = new SchetsControl(bmp);
+                schetscontrol = new SchetsControl(getekendeObjecten);
             schetscontrol.Location = new Point(64, 10);
             schetscontrol.MouseDown += (object o, MouseEventArgs mea) =>
             {
