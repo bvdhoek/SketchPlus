@@ -16,20 +16,32 @@ namespace SchetsEditor
     {
         protected Point startpunt;
         protected Brush kwast;
+        protected SchetsControl schetsControl;
+        protected IVorm laatstGetekendObject;
 
         public virtual void MuisVast(SchetsControl s, Point p)
         {
+            schetsControl = s;
             startpunt = p;
         }
 
         public virtual void MuisLos(SchetsControl s, Point p)
         {
             kwast = new SolidBrush(s.PenKleur);
+            Console.WriteLine(laatstGetekendObject);
+            if (laatstGetekendObject != null)
+                schetsControl.getekendeObjecten.Add(laatstGetekendObject);
             s.Schets.veranderd = true;
+        }
+
+        public virtual Color KwastKleur()
+        {
+            return schetsControl.PenKleur;
         }
 
         public abstract void MuisDrag(SchetsControl s, Point p);
         public abstract void Letter(SchetsControl s, char c);
+        public abstract void Letter(SchetsControl s, char c, Brush kwast, Point startPunt);
     }
 
     public class TekstTool : StartpuntTool
@@ -40,15 +52,19 @@ namespace SchetsEditor
 
         public override void Letter(SchetsControl s, char c)
         {
+            this.Letter(s, c, kwast, startpunt);
+        }
+
+        public override void Letter(SchetsControl s, char c, Brush kwast, Point startpunt)
+        {
             if (c >= 32)
             {
                 Graphics gr = s.MaakBitmapGraphics();
                 Font font = new Font("Tahoma", 40);
                 string tekst = c.ToString();
-                SizeF sz = 
-                gr.MeasureString(tekst, font, this.startpunt, StringFormat.GenericTypographic);
-                gr.DrawString   (tekst, font, kwast, 
-                                              this.startpunt, StringFormat.GenericTypographic);
+                SizeF sz = gr.MeasureString(tekst, font, startpunt, StringFormat.GenericTypographic);
+                gr.DrawString(tekst, font, kwast, startpunt, StringFormat.GenericTypographic);
+                schetsControl.getekendeObjecten.Add(new Letter(startpunt, KwastKleur(), c));
                 // gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, sz.Width, sz.Height);
                 startpunt.X += (int)sz.Width;
                 s.Invalidate();
@@ -96,8 +112,19 @@ namespace SchetsEditor
         {
         }
 
+        public override void Letter(SchetsControl s, char c, Brush kwast, Point startPunt)
+        {
+        }
+
         public abstract void Bezig(Graphics g, Point p1, Point p2);
-        
+        public abstract void Bezig(Graphics g, Point p1, Point p2, Brush kwast);
+
+        public virtual void Compleet(Graphics g, Point p1, Point p2, Brush kwast)
+        {
+            this.kwast = kwast;
+            this.Compleet(g, p1, p2);
+        }
+
         public virtual void Compleet(Graphics g, Point p1, Point p2)
         {
             this.Bezig(g, p1, p2);
@@ -110,7 +137,14 @@ namespace SchetsEditor
 
         public override void Bezig(Graphics g, Point p1, Point p2)
         {
-            g.DrawRectangle(MaakPen(kwast,3), TweepuntTool.Punten2Rechthoek(p1, p2));
+            laatstGetekendObject = new Rechthoek(p1, p2, KwastKleur());
+            g.DrawRectangle(MaakPen(this.kwast,3), TweepuntTool.Punten2Rechthoek(p1, p2));
+        }
+
+        public override void Bezig(Graphics g, Point p1, Point p2, Brush kwast)
+        {
+            this.kwast = kwast;
+            Bezig(g, p1, p2);
         }
     }
     
@@ -120,6 +154,7 @@ namespace SchetsEditor
 
         public override void Compleet(Graphics g, Point p1, Point p2)
         {
+            laatstGetekendObject = new VolRechthoek(p1, p2, KwastKleur());
             g.FillRectangle(kwast, TweepuntTool.Punten2Rechthoek(p1, p2));
         }
     }
@@ -130,7 +165,14 @@ namespace SchetsEditor
 
         public override void Bezig(Graphics g, Point p1, Point p2)
         {
+            laatstGetekendObject = new Ovaal(p1, p2, KwastKleur());
             g.DrawEllipse(MaakPen(kwast, 3), TweepuntTool.Punten2Rechthoek(p1, p2));   
+        }
+
+        public override void Bezig(Graphics g, Point p1, Point p2, Brush kwast)
+        {
+            this.kwast = kwast;
+            Bezig(g, p1, p2);
         }
     }
 
@@ -140,6 +182,7 @@ namespace SchetsEditor
 
         public override void Compleet(Graphics g, Point p1, Point p2)
         {
+            laatstGetekendObject = new VolOvaal(p1, p2, KwastKleur());
             g.FillEllipse(kwast, Punten2Rechthoek(p1, p2));
         }
     }
@@ -150,7 +193,14 @@ namespace SchetsEditor
 
         public override void Bezig(Graphics g, Point p1, Point p2)
         {
+            laatstGetekendObject = new Lijn(p1, p2, KwastKleur());
             g.DrawLine(MaakPen(this.kwast,3), p1, p2);
+        }
+
+        public override void Bezig(Graphics g, Point p1, Point p2, Brush kwast)
+        {
+            this.kwast = kwast;
+            Bezig(g, p1, p2);
         }
     }
 

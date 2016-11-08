@@ -132,7 +132,16 @@ namespace SchetsEditor
             menu.MergeAction = MergeAction.MatchOnly;
             menu.DropDownItems.Add("Opslaan", null, this.opslaan);
             menu.DropDownItems.Add("Sluiten", null, this.afsluiten);
+            menu.DropDownItems.Add("Debug vorm list", null, this.debug);
             menuStrip.Items.Add(menu);
+        }
+
+        private void debug(object o, EventArgs ea)
+        {
+            foreach (IVorm vorm in schetscontrol.getekendeObjecten)
+            {
+                Console.WriteLine(vorm.ToString());
+            }
         }
 
         private void maakToolMenu(ICollection<ISchetsTool> tools)
@@ -226,6 +235,18 @@ namespace SchetsEditor
                 return false;
             }
             return true;
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // SchetsWin
+            // 
+            this.ClientSize = new System.Drawing.Size(148, 135);
+            this.Name = "SchetsWin";
+            this.ResumeLayout(false);
+
         }
     }
 }
