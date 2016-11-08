@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -7,6 +9,7 @@ namespace SchetsEditor
 {   public class SchetsControl : UserControl
     {   private Schets schets;
         private Color penkleur;
+        public List<IVorm> getekendeObjecten = new List<IVorm>();
 
         public Color PenKleur
         {
@@ -20,6 +23,7 @@ namespace SchetsEditor
 
         public SchetsControl(Bitmap bmp = null)
         {
+            this.ClientSize = new Size(777, 498);
             this.BorderStyle = BorderStyle.Fixed3D;
             if (bmp == null)
                 this.schets = new Schets();
@@ -80,6 +84,17 @@ namespace SchetsEditor
         public bool SchetsVeranderd()
         {
             return schets.veranderd;
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // SchetsControl
+            // 
+            this.Name = "SchetsControl";
+            this.Size = new System.Drawing.Size(777, 498);
+            this.ResumeLayout(false);
         }
     }
 }

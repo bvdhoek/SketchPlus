@@ -228,5 +228,17 @@ namespace SchetsEditor
             }
             return true;
         }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // SchetsWin
+            // 
+            this.ClientSize = new System.Drawing.Size(148, 135);
+            this.Name = "SchetsWin";
+            this.ResumeLayout(false);
+
+        }
     }
 }
