@@ -23,12 +23,18 @@ namespace SchetsEditor
 
         private void opslaan(object sender, EventArgs e)
         {
-            Opslag.SlaOp(schetscontrol.getekendeObjecten, fileNaam);
+            if (Opslag.SlaOp(schetscontrol.getekendeObjecten, fileNaam))
+            {
+                schetscontrol.Schets.veranderd = false;
+            }
         }
 
         private void opslaanAls(object sender, EventArgs e)
         {
-            Opslag.SlaOp(schetscontrol.getekendeObjecten);
+            if (Opslag.SlaOp(schetscontrol.getekendeObjecten))
+            {
+                schetscontrol.Schets.veranderd = false;
+            }
         }
 
         private void veranderAfmeting(object o, EventArgs ea)
@@ -50,12 +56,13 @@ namespace SchetsEditor
 
         private void afsluiten(object obj, EventArgs ea)
         {
-            if (VeranderingsWaarschuwing("Weet je zeker dat u de schets wilt sluiten?\n U heeft onopgeslagen veranderingen."))
+            if (VeranderingsWaarschuwing("Weet u zeker dat u de schets wilt sluiten?\n U heeft onopgeslagen veranderingen."))
                 this.Close();
         }
 
         public SchetsWin(List<IVorm> getekendeObjecten = null, string fileNaam = null)
         {
+            this.FormClosing += this.SchetsWinSluiten;
             this.fileNaam = fileNaam;
             ISchetsTool[] deTools = { new PenTool()
                                     , new LijnTool()
@@ -65,7 +72,6 @@ namespace SchetsEditor
                                     , new VolOvaalTool()
                                     , new TekstTool()
                                     , new GumTool()
-
                                     };
             String[] deKleuren = { "Black", "Red", "Green", "Blue"
                                  , "Yellow", "Magenta", "Cyan"
@@ -206,7 +212,7 @@ namespace SchetsEditor
 
         private bool VeranderingsWaarschuwing(string waarschuwing)
         {
-            if (schetscontrol.SchetsVeranderd())
+            if (schetscontrol.Schets.veranderd)
             {
                 DialogResult result = MessageBox.Show(waarschuwing, "Schets veranderd", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
                 if (result == DialogResult.Yes)
@@ -226,6 +232,11 @@ namespace SchetsEditor
             this.Name = "SchetsWin";
             this.ResumeLayout(false);
 
+        }
+
+        private void SchetsWinSluiten(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = !VeranderingsWaarschuwing("Weet u zeker dat u de schets wilt sluiten?\n U heeft onopgeslagen veranderingen.");
         }
     }
 }

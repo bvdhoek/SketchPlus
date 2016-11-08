@@ -63,6 +63,7 @@ namespace SchetsEditor
                 string tekst = c.ToString();
                 SizeF sz = gr.MeasureString(tekst, font, startpunt, StringFormat.GenericTypographic);
                 gr.DrawString(tekst, font, kwast, startpunt, StringFormat.GenericTypographic);
+                schetsControl.Schets.veranderd = true;
                 schetsControl.getekendeObjecten.Add(new Letter(startpunt, KwastKleur(kwast), c));
                 // gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, sz.Width, sz.Height);
                 this.startpunt.X += (int)sz.Width;
@@ -105,7 +106,10 @@ namespace SchetsEditor
             base.MuisLos(s, p);
             this.Compleet(s.MaakBitmapGraphics(), this.startpunt, p);
             if (laatstGetekendObject != null)
+            {
+                schetsControl.Schets.veranderd = true;
                 schetsControl.getekendeObjecten.Add(laatstGetekendObject);
+            }
             s.Invalidate();
         }
 

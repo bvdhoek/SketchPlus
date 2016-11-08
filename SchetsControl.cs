@@ -86,11 +86,6 @@ namespace SchetsEditor
             penkleur = Color.FromName(kleurNaam);
         }
 
-        public bool SchetsVeranderd()
-        {
-            return schets.veranderd;
-        }
-
         private void InitializeComponent()
         {
             this.SuspendLayout();

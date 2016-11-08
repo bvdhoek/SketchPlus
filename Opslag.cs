@@ -59,7 +59,6 @@ namespace SchetsEditor
                     {
                         Point eindPunt = new Point(int.Parse(parameters[3]), int.Parse(parameters[4]));
                         Color kleur = Color.FromArgb(int.Parse(parameters[5]), int.Parse(parameters[6]), int.Parse(parameters[7]));
-                        Console.WriteLine("[Laad] " + kleur);
                         switch(parameters[0])
                         {
                             case "SchetsEditor.Lijn":
