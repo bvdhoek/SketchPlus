@@ -42,6 +42,7 @@ namespace SchetsEditor
                         break;
                 }
                 schetscontrol.Schets.ToBitmap().Save(saveVenster.FileName, format);
+                schetscontrol.Schets.veranderd = false;
             }
         }
 
