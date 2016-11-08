@@ -28,7 +28,6 @@ namespace SchetsEditor
         public virtual void MuisLos(SchetsControl s, Point p)
         {
             kwast = new SolidBrush(s.PenKleur);
-            Console.WriteLine(laatstGetekendObject);
             if (laatstGetekendObject != null)
                 schetsControl.getekendeObjecten.Add(laatstGetekendObject);
             s.Schets.veranderd = true;
