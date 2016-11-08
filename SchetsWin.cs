@@ -26,6 +26,11 @@ namespace SchetsEditor
             Opslag.SlaOp(schetscontrol.getekendeObjecten, fileNaam);
         }
 
+        private void opslaanAls(object sender, EventArgs e)
+        {
+            Opslag.SlaOp(schetscontrol.getekendeObjecten);
+        }
+
         private void veranderAfmeting(object o, EventArgs ea)
         {
             schetscontrol.Size = new Size ( this.ClientSize.Width  - 70
@@ -113,6 +118,7 @@ namespace SchetsEditor
             ToolStripMenuItem menu = new ToolStripMenuItem("File");
             menu.MergeAction = MergeAction.MatchOnly;
             menu.DropDownItems.Add("Opslaan", null, this.opslaan);
+            menu.DropDownItems.Add("Opslaan als...", null, this.opslaanAls);
             menu.DropDownItems.Add("Sluiten", null, this.afsluiten);
             menuStrip.Items.Add(menu);
         }
