@@ -21,17 +21,22 @@ namespace SchetsEditor
             get { return schets; }
         }
 
-        public SchetsControl(Bitmap bmp = null)
+        public SchetsControl(List<IVorm> getekendeObjecten = null)
         {
             this.ClientSize = new Size(777, 498);
             this.BorderStyle = BorderStyle.Fixed3D;
-            if (bmp == null)
-                this.schets = new Schets();
-            else
-                this.schets = new Schets(bmp);
+            this.schets = new Schets();
             this.Paint += this.teken;
             this.Resize += this.veranderAfmeting;
             this.veranderAfmeting(null, null);
+            if (getekendeObjecten != null)
+            {
+                this.getekendeObjecten = getekendeObjecten;
+                foreach (IVorm vorm in getekendeObjecten)
+                {
+                    vorm.Teken(this);
+                }
+            }
         }
 
         protected override void OnPaintBackground(PaintEventArgs e)
@@ -79,11 +84,6 @@ namespace SchetsEditor
         {
             string kleurNaam = ((ToolStripMenuItem)obj).Text;
             penkleur = Color.FromName(kleurNaam);
-        }
-
-        public bool SchetsVeranderd()
-        {
-            return schets.veranderd;
         }
 
         private void InitializeComponent()
