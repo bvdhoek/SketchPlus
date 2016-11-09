@@ -17,6 +17,7 @@ namespace SchetsEditor
         protected Point startpunt;
         protected Brush kwast;
         protected SchetsControl schetsControl;
+        protected Color kwastKleur;
         protected IVorm laatstGetekendObject;
 
         public virtual void MuisVast(SchetsControl s, Point p)
@@ -28,14 +29,13 @@ namespace SchetsEditor
         public virtual void MuisLos(SchetsControl s, Point p)
         {
             kwast = new SolidBrush(s.PenKleur);
-            if (laatstGetekendObject != null)
-                schetsControl.getekendeObjecten.Add(laatstGetekendObject);
             s.Schets.veranderd = true;
         }
 
-        public virtual Color KwastKleur()
+        public virtual Color KwastKleur(Brush kwast)
         {
-            return schetsControl.PenKleur;
+            SolidBrush brush = (SolidBrush)kwast;
+            return brush.Color;
         }
 
         public abstract void MuisDrag(SchetsControl s, Point p);
@@ -63,9 +63,10 @@ namespace SchetsEditor
                 string tekst = c.ToString();
                 SizeF sz = gr.MeasureString(tekst, font, startpunt, StringFormat.GenericTypographic);
                 gr.DrawString(tekst, font, kwast, startpunt, StringFormat.GenericTypographic);
-                schetsControl.getekendeObjecten.Add(new Letter(startpunt, KwastKleur(), c));
+                schetsControl.Schets.veranderd = true;
+                schetsControl.getekendeObjecten.Add(new Letter(startpunt, KwastKleur(kwast), c));
                 // gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, sz.Width, sz.Height);
-                startpunt.X += (int)sz.Width;
+                this.startpunt.X += (int)sz.Width;
                 s.Invalidate();
             }
         }
@@ -104,6 +105,11 @@ namespace SchetsEditor
         {
             base.MuisLos(s, p);
             this.Compleet(s.MaakBitmapGraphics(), this.startpunt, p);
+            if (laatstGetekendObject != null)
+            {
+                schetsControl.Schets.veranderd = true;
+                schetsControl.getekendeObjecten.Add(laatstGetekendObject);
+            }
             s.Invalidate();
         }
 
@@ -120,13 +126,10 @@ namespace SchetsEditor
 
         public virtual void Compleet(Graphics g, Point p1, Point p2, Brush kwast)
         {
-            this.kwast = kwast;
-            this.Compleet(g, p1, p2);
         }
 
         public virtual void Compleet(Graphics g, Point p1, Point p2)
         {
-            this.Bezig(g, p1, p2);
         }
     }
 
@@ -136,14 +139,17 @@ namespace SchetsEditor
 
         public override void Bezig(Graphics g, Point p1, Point p2)
         {
-            laatstGetekendObject = new Rechthoek(p1, p2, KwastKleur());
+            kwastKleur = schetsControl.PenKleur;
+            laatstGetekendObject = new Rechthoek(p1, p2, kwastKleur);
             g.DrawRectangle(MaakPen(this.kwast,3), TweepuntTool.Punten2Rechthoek(p1, p2));
         }
 
         public override void Bezig(Graphics g, Point p1, Point p2, Brush kwast)
         {
             this.kwast = kwast;
-            Bezig(g, p1, p2);
+            kwastKleur = KwastKleur(kwast);
+            laatstGetekendObject = new Rechthoek(p1, p2, kwastKleur);
+            g.DrawRectangle(MaakPen(kwast, 3), TweepuntTool.Punten2Rechthoek(p1, p2));
         }
     }
     
@@ -153,7 +159,16 @@ namespace SchetsEditor
 
         public override void Compleet(Graphics g, Point p1, Point p2)
         {
-            laatstGetekendObject = new VolRechthoek(p1, p2, KwastKleur());
+            kwastKleur = schetsControl.PenKleur;
+            laatstGetekendObject = new VolRechthoek(p1, p2, kwastKleur);
+            g.FillRectangle(kwast, TweepuntTool.Punten2Rechthoek(p1, p2));
+        }
+
+        public override void Compleet(Graphics g, Point p1, Point p2, Brush kwast)
+        {
+            this.kwast = kwast;
+            kwastKleur = KwastKleur(kwast);
+            laatstGetekendObject = new VolRechthoek(p1, p2, kwastKleur);
             g.FillRectangle(kwast, TweepuntTool.Punten2Rechthoek(p1, p2));
         }
     }
@@ -164,14 +179,17 @@ namespace SchetsEditor
 
         public override void Bezig(Graphics g, Point p1, Point p2)
         {
-            laatstGetekendObject = new Ovaal(p1, p2, KwastKleur());
+            kwastKleur = schetsControl.PenKleur;
+            laatstGetekendObject = new Ovaal(p1, p2, kwastKleur);
             g.DrawEllipse(MaakPen(kwast, 3), TweepuntTool.Punten2Rechthoek(p1, p2));   
         }
 
         public override void Bezig(Graphics g, Point p1, Point p2, Brush kwast)
         {
             this.kwast = kwast;
-            Bezig(g, p1, p2);
+            kwastKleur = KwastKleur(kwast);
+            laatstGetekendObject = new Ovaal(p1, p2, kwastKleur);
+            g.DrawEllipse(MaakPen(kwast, 3), TweepuntTool.Punten2Rechthoek(p1, p2));
         }
     }
 
@@ -181,7 +199,16 @@ namespace SchetsEditor
 
         public override void Compleet(Graphics g, Point p1, Point p2)
         {
-            laatstGetekendObject = new VolOvaal(p1, p2, KwastKleur());
+            kwastKleur = schetsControl.PenKleur;
+            laatstGetekendObject = new VolOvaal(p1, p2, kwastKleur);
+            g.FillEllipse(kwast, Punten2Rechthoek(p1, p2));
+        }
+
+        public override void Compleet(Graphics g, Point p1, Point p2, Brush kwast)
+        {
+            this.kwast = kwast;
+            kwastKleur = KwastKleur(kwast);
+            laatstGetekendObject = new VolOvaal(p1, p2, kwastKleur);
             g.FillEllipse(kwast, Punten2Rechthoek(p1, p2));
         }
     }
@@ -192,14 +219,17 @@ namespace SchetsEditor
 
         public override void Bezig(Graphics g, Point p1, Point p2)
         {
-            laatstGetekendObject = new Lijn(p1, p2, KwastKleur());
+            kwastKleur = schetsControl.PenKleur;
+            laatstGetekendObject = new Lijn(p1, p2, kwastKleur);
             g.DrawLine(MaakPen(this.kwast,3), p1, p2);
         }
 
         public override void Bezig(Graphics g, Point p1, Point p2, Brush kwast)
         {
             this.kwast = kwast;
-            Bezig(g, p1, p2);
+            kwastKleur = KwastKleur(kwast);
+            laatstGetekendObject = new Lijn(p1, p2, kwastKleur);
+            g.DrawLine(MaakPen(this.kwast, 3), p1, p2);
         }
     }
 
