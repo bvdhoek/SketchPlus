@@ -171,14 +171,12 @@ namespace SchetsEditor
             float py = eindPunt.Y - startPunt.Y;
             float temp = (px * px) + (py * py);
             float u = ((p.X - startPunt.X) * px + (p.Y - startPunt.Y) * py) / (temp);
+
             if (u > 1)
-            {
                 u = 1;
-            }
             else if (u < 0)
-            {
                 u = 0;
-            }
+
             float x = startPunt.X + u * px;
             float y = startPunt.Y + u * py;
 
