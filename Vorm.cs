@@ -167,7 +167,25 @@ namespace SchetsEditor
 
         public override bool OpGeklikt(SchetsControl s, Point p)
         {
-            return false;
+            float px = eindPunt.X - startPunt.X;
+            float py = eindPunt.Y - startPunt.Y;
+            float temp = (px * px) + (py * py);
+            float u = ((p.X - startPunt.X) * px + (p.Y - startPunt.Y) * py) / (temp);
+            if (u > 1)
+            {
+                u = 1;
+            }
+            else if (u < 0)
+            {
+                u = 0;
+            }
+            float x = startPunt.X + u * px;
+            float y = startPunt.Y + u * py;
+
+            float dx = x - p.X;
+            float dy = y - p.Y;
+            double afstand = Math.Sqrt(dx * dx + dy * dy);
+            return afstand <= 5;
         }
     }
 }
