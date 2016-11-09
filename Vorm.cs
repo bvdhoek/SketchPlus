@@ -29,6 +29,10 @@ namespace SchetsEditor
             return this.GetType() + " " + startPunt.X + " " + startPunt.Y + " " + eindPunt.X + " " + eindPunt.Y + " " + kleur.R + " " + kleur.G + " " + kleur.B + "\n";
         }
 
+        /// <summary>
+        /// Teken het object
+        /// </summary>
+        /// <param name="s"></param>
         public abstract void Teken(SchetsControl s);
         public abstract bool OpGeklikt(SchetsControl s, Point p);
     }
@@ -64,6 +68,12 @@ namespace SchetsEditor
             new TekstTool().Letter(s, this.letter, new SolidBrush(this.kleur), this.startPunt);
         }
 
+        /// <summary>
+        /// Bereken of de klik binnen de 'bounds' van de letter zijn
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="p"></param>
+        /// <returns>True of False</returns>
         public override bool OpGeklikt(SchetsControl s, Point p)
         {
             Graphics gr = s.MaakBitmapGraphics();
@@ -82,6 +92,12 @@ namespace SchetsEditor
             new RechthoekTool().Bezig(s.MaakBitmapGraphics(), startPunt, eindPunt, new SolidBrush(this.kleur));
         }
 
+        /// <summary>
+        /// Controleer of de klik op een van de randen van de rechthoek is
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="p"></param>
+        /// <returns>True of False</returns>
         public override bool OpGeklikt(SchetsControl s, Point p)
         {
             int bovengrens = startPunt.Y < eindPunt.Y ? startPunt.Y : eindPunt.Y;
@@ -89,9 +105,13 @@ namespace SchetsEditor
             int linkergrens = startPunt.X < eindPunt.X ? startPunt.X : eindPunt.X;
             int rechtergrens = startPunt.X < eindPunt.X ? eindPunt.X : startPunt.X;
             return (
+                    // Controleer of de klik op de linkergrens was
                     (p.X >= linkergrens - 5 && p.X <= linkergrens + 5 && p.Y >= bovengrens - 5 && p.Y <= ondergrens + 5) ||
+                    // Of de rechtgrens
                     (p.X >= rechtergrens - 5 && p.X <= rechtergrens + 5 && p.Y >= bovengrens -5 && p.Y <= ondergrens + 5) ||
+                    // Of de bovengrens
                     (p.X >= linkergrens - 5 && p.X <= rechtergrens + 5 && p.Y >= bovengrens - 5 && p.Y <= bovengrens + 5) ||
+                    // Of de ondergrens
                     (p.X >= linkergrens - 5 && p.X <= rechtergrens + 5 && p.Y >= ondergrens - 5 && p.Y <= ondergrens + 5)
                 );
         }
@@ -106,6 +126,13 @@ namespace SchetsEditor
             new VolRechthoekTool().Compleet(s.MaakBitmapGraphics(), startPunt, eindPunt, new SolidBrush(this.kleur));
         }
 
+        /// <summary>
+        /// Controleer of er binnen de rechthoek is geklikt
+        /// Dit gebeurt door te kijen of zowel p.X als p.Y binnen de rechthoek liggen
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="p"></param>
+        /// <returns>True of False</returns>
         public override bool OpGeklikt(SchetsControl s, Point p)
         {
             int width = Math.Abs(eindPunt.X - startPunt.X);
@@ -123,6 +150,13 @@ namespace SchetsEditor
             new OvaalTool().Bezig(s.MaakBitmapGraphics(), startPunt, eindPunt, new SolidBrush(this.kleur));
         }
 
+        /// <summary>
+        /// Controleer of de klik binnen de ovaal is
+        /// Gebaseerd op: http://stackoverflow.com/questions/13285007/how-to-determine-if-a-point-is-within-an-ellipse
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public override bool OpGeklikt(SchetsControl s, Point p)
         {
             int width = Math.Abs(eindPunt.X - startPunt.X);
@@ -165,6 +199,14 @@ namespace SchetsEditor
             new LijnTool().Bezig(s.MaakBitmapGraphics(), startPunt, eindPunt, new SolidBrush(this.kleur));
         }
 
+        /// <summary>
+        /// Bereken de afstand tot de lijn startpunt, eindpunt
+        /// Controleer vervolgens of deze afstand minder dan 5 is
+        /// Gebaseerd op: http://stackoverflow.com/questions/849211/shortest-distance-between-a-point-and-a-line-segment
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="p"></param>
+        /// <returns>True of False</returns>
         public override bool OpGeklikt(SchetsControl s, Point p)
         {
             float px = eindPunt.X - startPunt.X;

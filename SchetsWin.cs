@@ -21,6 +21,12 @@ namespace SchetsEditor
                                  , Assembly.GetExecutingAssembly()
                                  );
 
+        /// <summary>
+        /// Sla de file op
+        /// Als dit gelukt is, is de schets onveranderd
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void opslaan(object sender, EventArgs e)
         {
             if (Opslag.SlaOp(schetscontrol.getekendeObjecten, fileNaam))
@@ -29,6 +35,12 @@ namespace SchetsEditor
             }
         }
 
+        /// <summary>
+        /// Sla de file op
+        /// Als dit gelukt is, is de schets onveranderd
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void opslaanAls(object sender, EventArgs e)
         {
             if (Opslag.SlaOp(schetscontrol.getekendeObjecten))
@@ -37,11 +49,21 @@ namespace SchetsEditor
             }
         }
 
+        /// <summary>
+        /// Converteer de bitmap naar een afbeelding
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void converteer(object sender, EventArgs e)
         {
             Opslag.Converteer(schetscontrol.Schets.ToBitmap());
         }
 
+        /// <summary>
+        /// Verander de afmeting van het tekenpaneel
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="ea"></param>
         private void veranderAfmeting(object o, EventArgs ea)
         {
             schetscontrol.Size = new Size ( this.ClientSize.Width  - 70
@@ -49,22 +71,43 @@ namespace SchetsEditor
             paneel.Location = new Point(64, this.ClientSize.Height - 30);
         }
 
+        /// <summary>
+        /// Maak het menu waarin je de tools kan selecteren
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="ea"></param>
         private void klikToolMenu(object obj, EventArgs ea)
         {
             this.huidigeTool = (ISchetsTool)((ToolStripMenuItem)obj).Tag;
         }
 
+        /// <summary>
+        /// Maak de buttons waarin je de tools kan selecteren
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="ea"></param>
         private void klikToolButton(object obj, EventArgs ea)
         {
             this.huidigeTool = (ISchetsTool)((RadioButton)obj).Tag;
         }
 
+        /// <summary>
+        /// Sluit de tekening als er geen verandering is
+        /// of als de gebruiker bevestiging geeft dat de verandering niet uit maakt
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="ea"></param>
         private void afsluiten(object obj, EventArgs ea)
         {
             if (VeranderingsWaarschuwing("Weet u zeker dat u de schets wilt sluiten?\n U heeft onopgeslagen veranderingen."))
                 this.Close();
         }
 
+        /// <summary>
+        /// Initialiseer de schetswindow
+        /// </summary>
+        /// <param name="getekendeObjecten"></param>
+        /// <param name="fileNaam"></param>
         public SchetsWin(List<IVorm> getekendeObjecten = null, string fileNaam = null)
         {
             this.FormClosing += this.SchetsWinSluiten;
@@ -79,7 +122,7 @@ namespace SchetsEditor
                                     , new GumTool()
                                     };
             String[] deKleuren = { "Black", "Red", "Green", "Blue"
-                                 , "Yellow", "Magenta", "Cyan"
+                                 , "Yellow", "Magenta", "Cyan", "White"
                                  };
 
             this.ClientSize = new Size(700, 500);
@@ -124,6 +167,9 @@ namespace SchetsEditor
             this.veranderAfmeting(null, null);
         }
 
+        /// <summary>
+        /// Maak het file menu
+        /// </summary>
         private void maakFileMenu()
         {   
             ToolStripMenuItem menu = new ToolStripMenuItem("File");
@@ -135,6 +181,10 @@ namespace SchetsEditor
             menuStrip.Items.Add(menu);
         }
 
+        /// <summary>
+        /// Maak het tool menu
+        /// </summary>
+        /// <param name="tools"></param>
         private void maakToolMenu(ICollection<ISchetsTool> tools)
         {   
             ToolStripMenuItem menu = new ToolStripMenuItem("Tool");
@@ -149,6 +199,10 @@ namespace SchetsEditor
             menuStrip.Items.Add(menu);
         }
 
+        /// <summary>
+        /// Maak het aktie menu
+        /// </summary>
+        /// <param name="kleuren"></param>
         private void maakAktieMenu(String[] kleuren)
         {   
             ToolStripMenuItem menu = new ToolStripMenuItem("Aktie");
@@ -161,6 +215,10 @@ namespace SchetsEditor
             menuStrip.Items.Add(menu);
         }
 
+        /// <summary>
+        /// Maak de tool buttons
+        /// </summary>
+        /// <param name="tools"></param>
         private void maakToolButtons(ICollection<ISchetsTool> tools)
         {
             int t = 0;
@@ -182,6 +240,10 @@ namespace SchetsEditor
             }
         }
 
+        /// <summary>
+        /// Maak de aktie buttons
+        /// </summary>
+        /// <param name="kleuren"></param>
         private void maakAktieButtons(String[] kleuren)
         {   
             paneel = new Panel();
@@ -216,6 +278,11 @@ namespace SchetsEditor
             paneel.Controls.Add(cbb);
         }
 
+        /// <summary>
+        /// Geef een waarschuwing als de schets veranderd is
+        /// </summary>
+        /// <param name="waarschuwing"></param>
+        /// <returns></returns>
         private bool VeranderingsWaarschuwing(string waarschuwing)
         {
             if (schetscontrol.Schets.veranderd)
@@ -228,6 +295,9 @@ namespace SchetsEditor
             return true;
         }
 
+        /// <summary>
+        /// Initialiseer de SchetsWin
+        /// </summary>
         private void InitializeComponent()
         {
             this.SuspendLayout();
@@ -240,6 +310,12 @@ namespace SchetsEditor
 
         }
 
+        /// <summary>
+        /// Sluit de SchetsWin als er geen veranderingen zijn
+        /// of als de gebruiker bevestiging geeft dat de verandering niet uit maakt
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SchetsWinSluiten(object sender, FormClosingEventArgs e)
         {
             e.Cancel = !VeranderingsWaarschuwing("Weet u zeker dat u de schets wilt sluiten?\n U heeft onopgeslagen veranderingen.");

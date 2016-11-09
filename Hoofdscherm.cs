@@ -9,6 +9,9 @@ namespace SchetsEditor
     {
         MenuStrip menuStrip;
 
+        /// <summary>
+        /// Initialiseer het hoofdscherm
+        /// </summary>
         public Hoofdscherm()
         {   this.ClientSize = new Size(800, 600);
             menuStrip = new MenuStrip();
@@ -20,6 +23,9 @@ namespace SchetsEditor
             this.MainMenuStrip = menuStrip;
         }
 
+        /// <summary>
+        /// Maak het file menu en koppel alle methoden eraan
+        /// </summary>
         private void maakFileMenu()
         {   ToolStripDropDownItem menu;
             menu = new ToolStripMenuItem("File");
@@ -29,6 +35,9 @@ namespace SchetsEditor
             menuStrip.Items.Add(menu);
         }
 
+        /// <summary>
+        /// Maak het help menu en koppel alle methoden eraan
+        /// </summary>
         private void maakHelpMenu()
         {   ToolStripDropDownItem menu;
             menu = new ToolStripMenuItem("Help");
@@ -36,6 +45,11 @@ namespace SchetsEditor
             menuStrip.Items.Add(menu);
         }
 
+        /// <summary>
+        /// Laat informatie zien over de applicatie
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="ea"></param>
         private void about(object o, EventArgs ea)
         {   MessageBox.Show("Schets versie 1.0\n(c) UU Informatica 2010"
                            , "Over \"Schets\""
@@ -44,6 +58,11 @@ namespace SchetsEditor
                            );
         }
 
+        /// <summary>
+        /// Open een nieuwe lege tekening door een SchetsWin te maken zonder parameters
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void nieuw(object sender, EventArgs e)
         {
             SchetsWin s = new SchetsWin();
@@ -51,6 +70,13 @@ namespace SchetsEditor
             s.Show();
         }
 
+
+        /// <summary>
+        /// Laad een tekening uit een bestand en geef deze mee aan het SchetsWin
+        /// zodat die de tekening correct kan laten zien
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void openen(object sender, EventArgs e)
         {
             OpenFileDialog b = new OpenFileDialog();
@@ -64,6 +90,11 @@ namespace SchetsEditor
             }
         }
 
+        /// <summary>
+        /// Sluit de applicatie
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void afsluiten(object sender, EventArgs e)
         {
             this.Close();

@@ -54,6 +54,13 @@ namespace SchetsEditor
             this.Letter(s, c, kwast, startpunt);
         }
 
+        /// <summary>
+        /// Teken de letter en zet het startpunt += de breedte van de letter
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="c"></param>
+        /// <param name="kwast"></param>
+        /// <param name="startpunt"></param>
         public override void Letter(SchetsControl s, char c, Brush kwast, Point startpunt)
         {
             if (c >= 32)
@@ -65,7 +72,6 @@ namespace SchetsEditor
                 gr.DrawString(tekst, font, kwast, startpunt, StringFormat.GenericTypographic);
                 schetsControl.Schets.veranderd = true;
                 schetsControl.getekendeObjecten.Add(new Letter(startpunt, KwastKleur(kwast), c));
-                // gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, sz.Width, sz.Height);
                 this.startpunt.X += (int)sz.Width;
                 s.Invalidate();
             }
@@ -101,6 +107,11 @@ namespace SchetsEditor
             this.Bezig(s.CreateGraphics(), this.startpunt, p);
         }
 
+        /// <summary>
+        /// Teken het object en voeg het toe aan de lijst van getekende objecten
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="p"></param>
         public override void MuisLos(SchetsControl s, Point p)
         {
             base.MuisLos(s, p);
@@ -113,13 +124,8 @@ namespace SchetsEditor
             s.Invalidate();
         }
 
-        public override void Letter(SchetsControl s, char c)
-        {
-        }
-
-        public override void Letter(SchetsControl s, char c, Brush kwast, Point startPunt)
-        {
-        }
+        public override void Letter(SchetsControl s, char c) {}
+        public override void Letter(SchetsControl s, char c, Brush kwast, Point startPunt) {}
 
         public abstract void Bezig(Graphics g, Point p1, Point p2);
         public abstract void Bezig(Graphics g, Point p1, Point p2, Brush kwast);
@@ -239,6 +245,11 @@ namespace SchetsEditor
     {
         public override string ToString() { return "pen"; }
 
+        /// <summary>
+        /// Teken elke keer als de muis wordt verplaatst een nieuw object van het type lijn
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="p"></param>
         public override void MuisDrag(SchetsControl s, Point p)
         {
             this.MuisLos(s, p);
@@ -254,6 +265,12 @@ namespace SchetsEditor
         public void MuisDrag(SchetsControl s, Point p) {}
         public void MuisVast(SchetsControl s, Point p) { }
 
+        /// <summary>
+        /// Verwijder het hoogst gelegen object (als laatst getekende),
+        /// waarop geklikt wordt, uit de lijst van getekende objecten
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="p"></param>
         public void MuisLos(SchetsControl s, Point p)
         {
             if (s.getekendeObjecten.Remove(s.getekendeObjecten.FindLast(vorm => vorm.OpGeklikt(s, p))))
