@@ -48,6 +48,16 @@ namespace SchetsEditor
             schets.Teken(pea.Graphics);
         }
 
+        public void TekenVormen()
+        {
+            schets.Schoon();
+            foreach (IVorm vorm in getekendeObjecten)
+            {
+                vorm.Teken(this);
+            }
+            Invalidate();
+        }
+
         private void veranderAfmeting(object o, EventArgs ea)
         {
             schets.VeranderAfmeting(this.ClientSize);

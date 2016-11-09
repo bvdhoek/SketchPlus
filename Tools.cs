@@ -126,10 +126,12 @@ namespace SchetsEditor
 
         public virtual void Compleet(Graphics g, Point p1, Point p2, Brush kwast)
         {
+            this.Bezig(g, p1, p2, kwast);
         }
 
         public virtual void Compleet(Graphics g, Point p1, Point p2)
         {
+            this.Bezig(g, p1, p2);
         }
     }
 
@@ -244,13 +246,18 @@ namespace SchetsEditor
         }
     }
     
-    public class GumTool : PenTool
+    public class GumTool : ISchetsTool
     {
         public override string ToString() { return "gum"; }
 
-        public override void Bezig(Graphics g, Point p1, Point p2)
+        public void Letter(SchetsControl s, char c) {}
+        public void MuisDrag(SchetsControl s, Point p) {}
+        public void MuisVast(SchetsControl s, Point p) { }
+
+        public void MuisLos(SchetsControl s, Point p)
         {
-            g.DrawLine(MaakPen(Brushes.White, 7), p1, p2);
+            if (s.getekendeObjecten.Remove(s.getekendeObjecten.FindLast(vorm => vorm.OpGeklikt(s, p))))
+                s.TekenVormen();
         }
     }
 }
