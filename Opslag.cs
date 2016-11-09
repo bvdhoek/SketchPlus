@@ -18,10 +18,14 @@ namespace SchetsEditor
             saveVenster.DefaultExt = "sp";
             if (fileNaam == null)
             {
-                if (saveVenster.ShowDialog() == DialogResult.OK && Path.GetExtension(saveVenster.FileName) == ".sp")
+                if (saveVenster.ShowDialog() == DialogResult.OK)
                 {
-                    File.WriteAllText(saveVenster.FileName, FileTekst(getekendeObjecten));
-                    return true;
+                    if (Path.GetExtension(saveVenster.FileName) == ".sp")
+                    {
+                        File.WriteAllText(saveVenster.FileName, FileTekst(getekendeObjecten));
+                        return true;
+                    }
+                    OngeldigeExtensie();
                 }
             } else
             {
@@ -39,6 +43,37 @@ namespace SchetsEditor
                 tekst += vorm.ToString();
             }
             return tekst;
+        }
+
+        public static void Converteer(Bitmap bitmap)
+        {
+            SaveFileDialog saveVenster = new SaveFileDialog();
+            saveVenster.Filter = "Image|*.jpg;*.png;*.bmp";
+            saveVenster.DefaultExt = "png";
+            if (saveVenster.ShowDialog() == DialogResult.OK)
+            {
+                string extensie = Path.GetExtension(saveVenster.FileName);
+                switch (extensie)
+                {
+                    case ".jpg":
+                        bitmap.Save(saveVenster.FileName, ImageFormat.Jpeg);
+                        break;
+                    case ".png":
+                        bitmap.Save(saveVenster.FileName, ImageFormat.Png);
+                        break;
+                    case ".bmp":
+                        bitmap.Save(saveVenster.FileName, ImageFormat.Bmp);
+                        break;
+                    default:
+                        OngeldigeExtensie();
+                        break;
+                }
+            }
+        }
+
+        private static void OngeldigeExtensie()
+        {
+            MessageBox.Show("De extensie van het opgegeven bestand is ongeldig", "Ongeldige extensie", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public static List<IVorm> Laad(string fileNaam)
