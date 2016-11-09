@@ -37,6 +37,11 @@ namespace SchetsEditor
             }
         }
 
+        private void converteer(object sender, EventArgs e)
+        {
+            Opslag.Converteer(schetscontrol.Schets.ToBitmap());
+        }
+
         private void veranderAfmeting(object o, EventArgs ea)
         {
             schetscontrol.Size = new Size ( this.ClientSize.Width  - 70
@@ -125,6 +130,7 @@ namespace SchetsEditor
             menu.MergeAction = MergeAction.MatchOnly;
             menu.DropDownItems.Add("Opslaan", null, this.opslaan);
             menu.DropDownItems.Add("Opslaan als...", null, this.opslaanAls);
+            menu.DropDownItems.Add("Converteren", null, this.converteer);
             menu.DropDownItems.Add("Sluiten", null, this.afsluiten);
             menuStrip.Items.Add(menu);
         }
