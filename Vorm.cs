@@ -153,6 +153,8 @@ namespace SchetsEditor
         /// <summary>
         /// Controleer of de klik binnen de ovaal is
         /// Gebaseerd op: http://stackoverflow.com/questions/13285007/how-to-determine-if-a-point-is-within-an-ellipse
+        /// Bepaalt coördinaten t.o.v. middelpunt ovaal en kijkt of deze voldoet aan x^2/a^2 + y^2/b^2 &lt; = 1
+        /// (algemene formule voor ovaal) met x en y de coördinaten t.o.v. middelpunt en a en b de straal van ovaal.
         /// </summary>
         /// <param name="s"></param>
         /// <param name="p"></param>
@@ -203,6 +205,7 @@ namespace SchetsEditor
         /// Bereken de afstand tot de lijn startpunt, eindpunt
         /// Controleer vervolgens of deze afstand minder dan 5 is
         /// Gebaseerd op: http://stackoverflow.com/questions/849211/shortest-distance-between-a-point-and-a-line-segment
+        /// Stelt vector op tussen begin en eindpunt van lijn(segment) en berekend hier de afstand tot punt van.
         /// </summary>
         /// <param name="s"></param>
         /// <param name="p"></param>
